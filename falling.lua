@@ -224,12 +224,15 @@ core.register_entity("hallucinations:hallucinated_node", {
         if minetest.get_us_time() >= self.timeout then
             -- print("[trying to remove hallucination]")
 
+            local observer
             for name in pairs(self.object:get_observers()) do
-                local player = minetest.get_player_by_name(name)
-                if hallucinations.can_player_see_node(player, self.object:get_pos()) then
-                    -- print("cancelling, someone could see")
-                    return
-                end
+                observer = minetest.get_player_by_name(name)
+                break
+            end
+
+            if observer and hallucinations.can_player_see_node(observer, self.object:get_pos()) then
+                -- print("cancelling, someone could see")
+                return
             end
 
             -- print("removing")
@@ -263,7 +266,7 @@ function hallucinations.add_hallucinated_node(player, pos, node)
     obj:get_luaentity():set_node(node)
     obj:set_observers({ [player:get_player_name()] = true })
 
-    print("added hallucination for " .. player:get_player_name() .. " at " .. pos:to_string())
+    -- print("added hallucination for " .. player:get_player_name() .. " at " .. pos:to_string())
 
     return obj
 end
