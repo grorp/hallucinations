@@ -54,7 +54,8 @@ local function make_hallucination(player)
             -- local node_fake = {name = "default:mese"}
 
             local def_fake = minetest.registered_nodes[node_fake.name]
-            if not def_fake or def_fake.drawtype == "plantlike" then
+            if not def_fake or def_fake.drawtype == "plantlike" or
+                    def_fake.drawtype == "plantlike_rooted" then
                 -- print("not placing plant node as hallucination")
                 return
             end
