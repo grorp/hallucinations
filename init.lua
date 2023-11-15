@@ -66,9 +66,17 @@ local function make_hallucination(player)
     end
 end
 
-minetest.register_globalstep(function()
-    local players = minetest.get_connected_players()
+local STEP = 0.2
+local dtime_accu = 0
 
+minetest.register_globalstep(function(dtime)
+    dtime_accu = dtime_accu + dtime
+    if dtime_accu < STEP then
+        return
+    end
+    dtime_accu = 0
+
+    local players = minetest.get_connected_players()
     for _, player in ipairs(players) do
         make_hallucination(player)
     end
