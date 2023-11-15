@@ -12,13 +12,13 @@ function hallucinations.get_eye_pos(player)
 end
 
 function hallucinations.can_player_see_node(player, node_pos)
-    if vector.distance(player:get_pos(), node_pos) < MIN_PLAYER_DISTANCE then
+    local eye_pos = hallucinations.get_eye_pos(player)
+
+    if vector.distance(eye_pos, node_pos) < MIN_PLAYER_DISTANCE then
         return true
     end
 
-    local eye_pos = hallucinations.get_eye_pos(player)
     local bad_dir = vector.direction(eye_pos, node_pos)
-
     local actual_dir = player:get_look_dir()
 
     if vector.dot(bad_dir, actual_dir) > 0 then
@@ -54,8 +54,8 @@ local function make_hallucination(player)
             -- local node_fake = {name = "default:mese"}
 
             local def_fake = minetest.registered_nodes[node_fake.name]
-            if not def_fake or def_fake.drawtype ~= "normal" then
-                -- print("not placing complex node as hallucination")
+            if not def_fake or def_fake.drawtype == "plantlike" then
+                -- print("not placing plant node as hallucination")
                 return
             end
 

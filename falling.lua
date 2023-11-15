@@ -266,7 +266,7 @@ function hallucinations.add_hallucinated_node(player, pos, node)
     obj:get_luaentity():set_node(node)
     obj:set_observers({ [player:get_player_name()] = true })
 
-    -- print("added hallucination for " .. player:get_player_name() .. " at " .. pos:to_string())
+    print("added hallucination for " .. player:get_player_name() .. " at " .. pos:to_string())
 
     return obj
 end
