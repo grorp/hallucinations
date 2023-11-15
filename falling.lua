@@ -215,7 +215,9 @@ core.register_entity("hallucinations:hallucinated_node", {
 
 	on_activate = function(self)
 		self.object:set_armor_groups({immortal = 1})
-        self.timeout = minetest.get_us_time() + math.random(1000000, 10000000)
+
+        local SECONDS = 1000000
+        self.timeout = minetest.get_us_time() + math.random(10 * SECONDS, 30 * SECONDS)
 	end,
 
 	on_step = function(self)
@@ -261,7 +263,7 @@ function hallucinations.add_hallucinated_node(player, pos, node)
 	obj:get_luaentity():set_node(node)
     obj:set_observers({ [player:get_player_name()] = true })
 
-    -- print("added hallucination for " .. player:get_player_name() .. " at " .. pos:to_string())
+    print("added hallucination for " .. player:get_player_name() .. " at " .. pos:to_string())
 
 	return obj
 end
